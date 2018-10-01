@@ -1,30 +1,42 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import {fetchZipByGeolocation} from './utils'
+import {
+    fetchZipByGeolocation,
+    fetchForNav
+} from './utils'
+import axios from 'axios'
 
 class App extends Component {
-	determineLoc = async () => {
-		const test = await fetchZipByGeolocation()
-		const toString = JSON.stringify(test)
-		console.log('toString', toString)
-		return toString
-	}
-  render() {
-	  const test = this.determineLoc()
-	  console.log(test)
-	return (
-	  <div className="App">
-		<header className="App-header">
-		  <img src={logo} className="App-logo" alt="logo" />
-		  <h1 className="App-title">Welcome to React</h1>
-		</header>
-		<p className="App-intro">
-		  To get started, edit <code>src/App.js</code> and save to reload.
-		</p>
-	  </div>
-	);
-  }
+    state = {
+        isVisible: true,
+        googleApiStr: "",
+        navigatorCoordsStr: "",
+        navPositionStr: ""
+    }
+
+    determineLoc = async () => {
+        const test = await fetchZipByGeolocation()
+        const toString = JSON.stringify(test)
+        return toString
+    }
+
+    render() {
+        this.determineLoc()
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+            console.log(position)
+        });
+
+        return (
+            <div className="App">
+                <div className="logo"></div>
+                <div className="nav"></div>
+                <p className="App-intro">
+                   Clique“ SIM” para ver o conteúdo.
+		        </p>
+            </div>
+        );
+    }
 }
 
 export default App;
