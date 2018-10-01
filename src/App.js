@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import {
-    fetchZipByGeolocation,
+    fetchGoogleForLatLng,
     fetchForNav
 } from './utils'
 import axios from 'axios'
@@ -15,17 +15,22 @@ class App extends Component {
     }
 
     determineLoc = async () => {
-        const test = await fetchZipByGeolocation()
-        const toString = JSON.stringify(test)
-        return toString
+        const googleFetchLatLong = await fetchGoogleForLatLng()
+        console.log(googleFetchLatLong)
+
+        if (typeof googleFetchLatLong !== "undefined") {
+            console.log('googleFetchLatLong', googleFetchLatLong)
+            const fetchLatLongStr = JSON.stringify(googleFetchLatLong)
+            return fetchLatLongStr
+        }
     }
 
     render() {
         this.determineLoc()
 
-        navigator.geolocation.getCurrentPosition(function (position) {
-            console.log(position)
-        });
+        // navigator.geolocation.getCurrentPosition(function (position) {
+        //     console.log(position)
+        // });
 
         return (
             <div className="App">
